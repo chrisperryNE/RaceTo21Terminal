@@ -10,8 +10,10 @@ namespace RaceTo21
             Game game = new Game(cardTable);
             while (game.nextTask != "GameOver")
             {
-                game.DoNextTask();
+            game.DoNextTask();
             }
+        
+           
         }
     }
 }

@@ -10,7 +10,7 @@ namespace RaceTo21
 
         public Deck()
         {
-            Console.WriteLine("*********** Building deck...");
+            Console.WriteLine("Building deck...");
             string[] suits = { "S", "H", "C", "D" };
 
             for (int cardVal = 1; cardVal <= 13; cardVal++)
@@ -26,7 +26,7 @@ namespace RaceTo21
                             cardLongName = "Ace of ";
                             break;
                         case 10:
-                            cardName = "10";
+                            cardName = "T";
                             cardLongName = "10 of ";
                             break;
                         case 11:
@@ -100,7 +100,7 @@ namespace RaceTo21
                 Console.Write(i+":"+cards[i].name); // a list property can look like an Array!
                 if (i < cards.Count -1)
                 {
-                    Console.Write(" ");
+                    Console.Write(" \n");
                 } else
                 {
                     Console.WriteLine("");

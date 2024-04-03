@@ -11,15 +11,22 @@ namespace RaceTo21
         CardTable cardTable; // object in charge of displaying game information
         Deck deck = new Deck(); // deck of cards
         int currentPlayer = 0; // current player on list
+        int round = 1;
+        int playerPot = 0;
+        int roundsWon = 0;
         public string nextTask; // keeps track of game state
         private bool cheating = false; // lets you cheat for testing purposes if true
+        
+       
 
         public Game(CardTable c)
         {
+            
             cardTable = c;
             deck.Shuffle();
-            deck.ShowAllCards();
+            ///deck.ShowAllCards();
             nextTask = "GetNumberOfPlayers";
+            
         }
 
         /* Adds a player to the current game
@@ -93,8 +100,24 @@ namespace RaceTo21
                 if (!CheckActivePlayers())
                 {
                     Player winner = DoFinalScoring();
+                   
                     cardTable.AnnounceWinner(winner);
-                    nextTask = "GameOver";
+                    var decision = cardTable.IsGameOver(winner);
+                    if (decision == true)
+                    {
+                        Console.WriteLine("The group has decided to play again!" +
+                            "/n Shuffling cards...");
+                        
+                        deck.Shuffle();
+                        deck.ShowAllCards();
+                        nextTask = "GetNumberOfPlayers";
+                    }
+                    else if (decision == false)
+                    {
+                        Console.Write("Press <Enter> to exit...");
+                        while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+                    }
+                    
                 }
                 else
                 {
@@ -106,6 +129,15 @@ namespace RaceTo21
                     nextTask = "PlayerTurn";
                 }
             }
+            else if (nextTask == "IsGameOver")
+            {
+                
+                deck.Shuffle();
+                deck.ShowAllCards();
+                nextTask = "PlayerTurn";
+            }
+
+
             else // we shouldn't get here...
             {
                 Console.WriteLine("I'm sorry, I don't know what to do now!");
@@ -136,6 +168,7 @@ namespace RaceTo21
                         case 'K':
                         case 'Q':
                         case 'J':
+                        case 'T':
                             score = score + 10;
                             break;
                         case 'A':
@@ -152,12 +185,16 @@ namespace RaceTo21
 
         public bool CheckActivePlayers()
         {
-            foreach (var player in players)
+            int numberOfOtherPlayers = (players.Count - 1);
+            if (numberOfPlayers > 1)
             {
-                
-                if (player.status == PlayerStatus.active)
+
+                foreach (var player in players)
                 {
-                    return true; // at least one player is still going!
+                    if (player.status == PlayerStatus.active)
+                    {
+                        return true; // at least one player is still going!
+                    }
                 }
             }
             return false; // everyone has stayed or busted, or someone won!
@@ -189,5 +226,7 @@ namespace RaceTo21
             }
             return null; // everyone must have busted because nobody won!
         }
+
+        
     }
 }

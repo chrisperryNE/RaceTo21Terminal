@@ -5,8 +5,14 @@ namespace RaceTo21
 {
     public class CardTable
     {
+        
         public CardTable()
         {
+            Console.WriteLine("===========================================");
+            Console.WriteLine("===========================================");
+            Console.WriteLine("////////// Welcome to Race to 21 //////////");
+            Console.WriteLine("===========================================");
+            Console.WriteLine("===========================================");
             Console.WriteLine("Setting Up Table...");
         }
 
@@ -122,16 +128,40 @@ namespace RaceTo21
 
         public void AnnounceWinner(Player player)
         {
+            int nextPlayer = 1;
             if (player != null)
             {
                 Console.WriteLine(player.name + " wins!");
             }
-            else
+            else if (player == null)
             {
-                Console.WriteLine("Everyone busted!");
+                Console.WriteLine("Everyone busted!");              
             }
-            Console.Write("Press <Enter> to exit... ");
-            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+            
+
+
         }
+
+        public bool IsGameOver(Player player)
+        {
+            while (true)
+            {
+                Console.Write(player.name + ", do you want to play another round? (Y/N)");
+                string response = Console.ReadLine();
+                if (response.ToUpper().StartsWith("Y"))
+                {
+                    return true;
+                }
+                else if (response.ToUpper().StartsWith("N"))
+                {
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("Please answer Y(es) or N(o)!");
+                }
+            }
+        }
+
     }
 }

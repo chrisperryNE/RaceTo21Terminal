@@ -10,6 +10,7 @@ namespace RaceTo21
 		public PlayerStatus status = PlayerStatus.active;
 		public int score;
 
+
 		public Player(string n)
 		{
 			name = n;
@@ -22,6 +23,7 @@ namespace RaceTo21
 		{
 			Console.WriteLine("Hello, my name is " + name + " and I am player #" + playerNum);
 		}
+	
 	}
 }
 
