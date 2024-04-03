@@ -16,23 +16,16 @@ namespace RaceTo21
             Console.WriteLine("Setting Up Table...");
         }
 
-        /* Shows the name of each player and introduces them by table position.
-         * Is called by Game object.
-         * Game object provides list of players.
-         * Calls Introduce method on each player object.
-         */
+        
         public void ShowPlayers(List<Player> players)
         {
             for (int i = 0; i < players.Count; i++)
             {
-                players[i].Introduce(i+1); // List is 0-indexed but user-friendly player positions would start with 1...
+                players[i].Introduce(i+1); 
             }
         }
 
-        /* Gets the user input for number of players.
-         * Is called by Game object.
-         * Returns number of players to Game object.
-         */
+       
         public int GetNumberOfPlayers()
         {
             Console.Write("How many players? ");
@@ -48,11 +41,7 @@ namespace RaceTo21
             return numberOfPlayers;
         }
 
-        /* Gets the name of a player
-         * Is called by Game object
-         * Game object provides player number
-         * Returns name of a player to Game object
-         */
+        
         public string GetPlayerName(int playerNum)
         {
             Console.Write("What is the name of player# " + playerNum + "? ");
@@ -141,7 +130,7 @@ namespace RaceTo21
 
 
         }
-
+        /// I added the IsGameOver method, which works but only asks the winner whether or not they want to play again.
         public bool IsGameOver(Player player)
         {
             while (true)

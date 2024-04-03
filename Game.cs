@@ -6,16 +6,16 @@ namespace RaceTo21
 {
     public class Game
     {
-        int numberOfPlayers; // number of players in current game
-        List<Player> players = new List<Player>(); // list of objects containing player data
-        CardTable cardTable; // object in charge of displaying game information
-        Deck deck = new Deck(); // deck of cards
-        int currentPlayer = 0; // current player on list
-        int round = 1;
-        int playerPot = 0;
+        int numberOfPlayers; 
+        List<Player> players = new List<Player>(); 
+        CardTable cardTable; 
+        Deck deck = new Deck(); 
+        int currentPlayer = 0; 
+        int round = 1; /// Added this but didn't use it yet.  Would need it to create cumulative score.
+        int playerPot = 0;  /// Added this and the int below but didn't use them yet.  I wanted my RaceTo21 to start by choosing a win condition (amount of money in pot or number of rounds won)
         int roundsWon = 0;
-        public string nextTask; // keeps track of game state
-        private bool cheating = false; // lets you cheat for testing purposes if true
+        public string nextTask; 
+        private bool cheating = false; 
         
        
 
@@ -29,19 +29,13 @@ namespace RaceTo21
             
         }
 
-        /* Adds a player to the current game
-         * Called by DoNextTask() method
-         */
+        
         public void AddPlayer(string n)
         {
             players.Add(new Player(n));
         }
 
-        /* Figures out what task to do next in game
-         * as represented by field nextTask
-         * Calls methods required to complete task
-         * then sets nextTask.
-         */
+        
         public void DoNextTask()
         {
             Console.WriteLine("================================"); // this line should be elsewhere right?
@@ -55,7 +49,7 @@ namespace RaceTo21
                 for (var count = 1; count <= numberOfPlayers; count++)
                 {
                     var name = cardTable.GetPlayerName(count);
-                    AddPlayer(name); // NOTE: player list will start from 0 index even though we use 1 for our count here to make the player numbering more human-friendly
+                    AddPlayer(name); 
                 }
                 nextTask = "IntroducePlayers";
             }
@@ -102,6 +96,7 @@ namespace RaceTo21
                     Player winner = DoFinalScoring();
                    
                     cardTable.AnnounceWinner(winner);
+                    /// I added in the decision below
                     var decision = cardTable.IsGameOver(winner);
                     if (decision == true)
                     {
@@ -110,6 +105,7 @@ namespace RaceTo21
                         
                         deck.Shuffle();
                         deck.ShowAllCards();
+                        /// The line below is where things get messy.  It gets the number of players but does not forget the previous players.  If I write nextTask = "IntroducePlayers", I get stuck in a loop and start an ew round.  I should likely be writing a new task / method.
                         nextTask = "GetNumberOfPlayers";
                     }
                     else if (decision == false)
@@ -124,7 +120,7 @@ namespace RaceTo21
                     currentPlayer++;
                     if (currentPlayer > players.Count - 1)
                     {
-                        currentPlayer = 0; // back to the first player...
+                        currentPlayer = 0; 
                     }
                     nextTask = "PlayerTurn";
                 }
@@ -138,7 +134,7 @@ namespace RaceTo21
             }
 
 
-            else // we shouldn't get here...
+            else 
             {
                 Console.WriteLine("I'm sorry, I don't know what to do now!");
                 nextTask = "GameOver";
@@ -193,11 +189,11 @@ namespace RaceTo21
                 {
                     if (player.status == PlayerStatus.active)
                     {
-                        return true; // at least one player is still going!
+                        return true; 
                     }
                 }
             }
-            return false; // everyone has stayed or busted, or someone won!
+            return false; 
         }
 
         public Player DoFinalScoring()
@@ -206,25 +202,25 @@ namespace RaceTo21
             foreach (var player in players)
             {
                 cardTable.ShowHand(player);
-                if (player.status == PlayerStatus.win) // someone hit 21
+                if (player.status == PlayerStatus.win) 
                 {
                     return player;
                 }
-                if (player.status == PlayerStatus.stay) // still could win...
+                if (player.status == PlayerStatus.stay) 
                 {
                     if (player.score > highScore)
                     {
                         highScore = player.score;
                     }
                 }
-                // if busted don't bother checking!
+                
             }
-            if (highScore > 0) // someone scored, anyway!
+            if (highScore > 0) 
             {
-                // find the FIRST player in list who meets win condition
+                
                 return players.Find(player => player.score == highScore);
             }
-            return null; // everyone must have busted because nobody won!
+            return null; 
         }
 
         

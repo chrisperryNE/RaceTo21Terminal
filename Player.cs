@@ -16,9 +16,7 @@ namespace RaceTo21
 			name = n;
         }
 
-		/* Introduces player by name
-		 * Called by CardTable object
-		 */
+		
 		public void Introduce(int playerNum)
 		{
 			Console.WriteLine("Hello, my name is " + name + " and I am player #" + playerNum);
